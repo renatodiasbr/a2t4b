@@ -1,0 +1,46 @@
+<h2>Sign Up</h2>
+<form [formGroup]="form" (ngSubmit)="login()">
+    <div class="alert alert-danger" *ngIf="form.errors">The username or login is invalid.</div>
+    <div formGroupName="account">
+      <div
+        class="form-group"
+        [class.has-error]="
+          (username.touched && username.invalid && !username.pending)
+          || (username.untouched && username.invalid && username.errors.shouldBeUnique)"
+        [class.has-warning]="username.pending">
+        <label for="username">Username</label>
+        <input
+          formControlName="username"
+          id="username"
+          type="text"
+          class="form-control">
+        <div class="alert alert-info" *ngIf="username.pending">Checking for uniqueness...</div>
+        <div
+          class="alert alert-danger"
+          *ngIf="username.touched && username.invalid">
+          <div *ngIf="username.errors.required">Username is required.</div>
+          <div *ngIf="username.errors.minlength">Username should be mininum {{username.errors.minlength.requiredLength}} characters.</div>
+          <div *ngIf="username.errors.cannotContainSpace">Username cannot contain space.</div>
+          <div *ngIf="username.errors.shouldBeUnique">Username is already taken.</div>
+        </div>
+        <div
+          class="alert alert-danger"
+          *ngIf="username.untouched && username.invalid && username.errors.shouldBeUnique">Username is already taken.</div>
+      </div>
+      <div class="form-group" [class.has-error]="password.touched && !password.valid">
+        <label for="password">Password</label>
+        <input
+          formControlName="password"
+          id="password"
+          type="text"
+          class="form-control">
+        <div
+          class="alert alert-danger"
+          *ngIf="password.touched && password.invalid">
+          <div *ngIf="password.errors.required">Password is required.</div>
+          <div *ngIf="password.errors.minlength">Password should be mininum {{password.errors.minlength.requiredLength}} characters.</div>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-primary" type="submit">Sign Up</button>
+</form>

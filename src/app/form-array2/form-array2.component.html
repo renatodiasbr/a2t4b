@@ -1,0 +1,16 @@
+<h2>Form Array Component</h2>
+<form [formGroup]="form">
+  <label for="name">Name</label>
+  <input id="name" type="text" class="form-control" (keyup.enter)="addTopic(topic)" #topic formControlName="name">
+  <div class="alert alert-danger" *ngIf="this.form.get('name').invalid && this.form.get('name').dirty">Name is required</div>
+  <div formGroupName="contact">
+    <label for="email">Email</label>
+    <input id="email" type="text" class="form-control" formControlName="email">
+    <label for="phone">Phone</label>
+    <input id="phone" type="text" class="form-control" formControlName="phone">
+  </div>
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let topic of topics.controls"
+      (click)="removeTopic(topic)">{{topic.value}}</li>
+  </ul>
+</form>
