@@ -33,10 +33,12 @@ export class ChangePasswordComponent {
         [
           Validators.required,
           Validators.minLength(6),
-          PasswordValidators.cannotContainSpace,
-          PasswordValidators.confirmPasswordDoesNotMach('newPassword')
+          PasswordValidators.cannotContainSpace
+          // ,PasswordValidators.confirmPasswordDoesNotMach('newPassword')
         ]
       ]
+    }, {
+      validator: PasswordValidators.passwordsShouldMatch
     });
 
     this.newPassword.valueChanges.subscribe(() => {

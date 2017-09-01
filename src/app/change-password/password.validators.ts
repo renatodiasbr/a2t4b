@@ -44,4 +44,27 @@ export class PasswordValidators {
       return null;
     };
   }
+
+  static passwordsShouldMatch2(newPasswordPath, confirmPasswordPath): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const newPassWord = control.get(newPasswordPath);
+      const confirmPassWord = control.get(confirmPasswordPath);
+      if (newPassWord != null && confirmPassWord != null) {
+        return newPassWord.value !== confirmPassWord.value ? { passwordsShouldMatch: true } : null;
+      }
+
+      return null;
+    };
+  }
+
+  static passwordsShouldMatch(control: AbstractControl): ValidationErrors | null {
+      const newPassWord = control.get('newPassword');
+      const confirmPassWord = control.get('confirmPassword');
+
+      if (newPassWord.value !== confirmPassWord.value) {
+        return  { passwordsShouldMatch: true };
+      }
+
+      return null;
+  }
 }
