@@ -13,6 +13,8 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 import { PostsComponent } from './posts/posts.component';
 import { PostService } from './posts/post.service';
 import { AppErrorHandler } from './common/app-error-handler';
+import { MyFollowersComponent } from './my-followers/my-followers.component';
+import { MyFollowersService } from './my-followers/my-followers.service';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,8 @@ import { AppErrorHandler } from './common/app-error-handler';
     FormArrayComponent,
     FormArray2Component,
     ChangePasswordComponent,
-    PostsComponent
+    PostsComponent,
+    MyFollowersComponent
   ],
   imports: [
     BrowserModule,
@@ -33,6 +36,7 @@ import { AppErrorHandler } from './common/app-error-handler';
   ],
   providers: [
     PostService,
+    MyFollowersService,
     { provide: ErrorHandler, useClass: AppErrorHandler }
   ],
   bootstrap: [AppComponent]
