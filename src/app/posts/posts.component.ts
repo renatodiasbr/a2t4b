@@ -17,53 +17,51 @@ export class PostsComponent implements OnInit {
   constructor(private postService: PostService) { }
 
   ngOnInit() {
-    this.postService.getPosts().subscribe(r => {
-      this.posts = r.json();
-    }, e => {
-      alert('An unexpected error occurred.');
-    });
+    this.postService.getAll().subscribe(posts => this.posts = posts);
   }
 
   addPost(newPost: HTMLInputElement) {
     const post: any = { title: newPost.value };
     newPost.value = '';
 
-    this.postService.addPost(post)
+    this.postService.add(post)
       .subscribe(r => {
-        post.id = r.json().id;
+        post.id = r.id;
         this.posts.splice(0, 0, post);
       }, (e: AppError) => {
         if (e instanceof BadInputError) {
           // this.form.setErrors(e.originalError);
         } else {
-          alert('An unexpected error occurred.');
+          throw e;
         }
       });
   }
 
   updatePost(post: any) {
-    this.postService.updatePost(post)
+    this.postService.update(post)
       .subscribe(r => {
-        console.log(r.json());
+        console.log(r);
       }, (e: AppError) => {
         if (e instanceof BadInputError) {
           // this.form.setErrors(e.originalError);
+        } else if (e instanceof NotFoundError) {
+          alert('This post no longer exists.');
         } else {
-          alert('An unexpected error occurred.');
+          throw e;
         }
       });
   }
 
   deletePost(post: any) {
-    this.postService.deletePost(post.id)
-      .subscribe(r => {
+    this.postService.delete(post.id)
+      .subscribe(() => {
         const index = this.posts.indexOf(post);
         this.posts.splice(index, 1);
       }, (e: AppError) => {
         if (e instanceof NotFoundError) {
           alert('This post has already been deleted.');
         } else {
-          alert('An unexpected error occurred.');
+          throw e;
         }
       });
   }
